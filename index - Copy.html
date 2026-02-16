@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تهنئة رمضان</title>
+  <style>
+
+    body { font-family: Arial, Helvetica, sans-serif; text-align: center; background: #007bce; color: white; margin: 0; padding: 20px; }
+    input { padding: 12px; font-size: 16px; width: 80%; max-width: 300px; margin: 10px auto; border: none; border-radius: 8px; display: block; font-family: inherit; }
+    canvas { display: block; margin: 5px auto 0 auto; max-width: 95%; width: 500px; height: auto; border-radius: 10px; }
+    button { padding: 12px 30px; font-size: 18px; margin: 10px auto; cursor: pointer; border: none; background: white; color: #007bce; border-radius: 8px; font-weight: bold; display: block; font-family: inherit; }
+  </style>
+</head>
+<body>
+  <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" oninput="updateCard()" />
+  <canvas id="cardCanvas" width="2250" height="2250"></canvas>
+  <button onclick="downloadCard()">تحميل التهنئة</button>
+
+  <script>
+    const canvas = document.getElementById('cardCanvas');
+    const ctx = canvas.getContext('2d');
+    const baseImage = new Image();
+    baseImage.src = 'card@1x.png';
+
+    function updateCard() {
+      const name = document.getElementById('nameInput').value;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(baseImage, 0, 0, 2250, 2250);
+
+  
+      ctx.font = 'bold 70px Arial, sans-serif'; 
+      ctx.fillStyle = '#d2e0ff';
+      ctx.textAlign = 'center';
+      
+  
+      ctx.fillText(name, canvas.width / 2, 1800);
+    }
+
+    function downloadCard() {
+      const link = document.createElement('a');
+      link.download = 'ramadan_card.png';
+      link.href = canvas.toDataURL('image/png', 1.0);
+      link.click();
+    }
+
+    baseImage.onload = () => updateCard();
+  </script>
+</body>
+</html>
